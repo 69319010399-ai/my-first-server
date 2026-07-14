@@ -1,224 +1,155 @@
-// 1. เรียกใช้งาน Module ที่ชื่อว่า 'http'
-const http = require('http');
+const http = require("http");
 
-// 2. กำหนด Port
 const port = process.env.PORT || 3000;
 
-// 3. สร้าง Web Server
 const server = http.createServer((req, res) => {
+  res.writeHead(200, {
+    "Content-Type": "text/html; charset=utf-8",
+  });
 
-    res.statusCode = 200;
-    res.setHeader('Content-Type', 'text/html; charset=utf-8');
-
-    res.end(`
+  res.end(`
 <!DOCTYPE html>
 <html lang="th">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>My Web Server</title>
+<title>Web Server</title>
 
 <style>
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:'Segoe UI',sans-serif;
-}
 
 body{
-    height:100vh;
+    margin:0;
+    font-family:Arial,sans-serif;
     display:flex;
     justify-content:center;
     align-items:center;
+    height:100vh;
+    background:linear-gradient(-45deg,#c8ecff,#a7ddff,#7bc8ff,#b8f1ff);
+    background-size:400% 400%;
+    animation:bg 10s ease infinite;
     overflow:hidden;
-    background:linear-gradient(135deg,#dff6ff,#bdeaff,#8fd3ff);
 }
 
-/* พื้นหลังเคลื่อนไหว */
-body::before{
-    content:"";
-    position:absolute;
-    width:200%;
-    height:200%;
-    background:
-        radial-gradient(circle,#ffffff55 2px,transparent 2px);
-    background-size:60px 60px;
-    animation:bgMove 20s linear infinite;
+@keyframes bg{
+0%{background-position:0% 50%;}
+50%{background-position:100% 50%;}
+100%{background-position:0% 50%;}
 }
 
-@keyframes bgMove{
-    from{transform:translate(0,0);}
-    to{transform:translate(-100px,-100px);}
-}
-
-/* กล่องหลัก */
-.container{
-    position:relative;
-    z-index:2;
-    width:80%;
-    max-width:700px;
-    background:rgba(255,255,255,.8);
-    backdrop-filter:blur(12px);
-    border-radius:25px;
-    padding:40px;
+.card{
+    width:700px;
+    max-width:90%;
+    background:rgba(255,255,255,.9);
+    border-radius:20px;
+    padding:35px;
     text-align:center;
-    box-shadow:0 15px 35px rgba(0,140,255,.3);
+    box-shadow:0 10px 30px rgba(0,0,0,.2);
     animation:float 3s ease-in-out infinite;
 }
 
 @keyframes float{
-    0%{transform:translateY(0);}
-    50%{transform:translateY(-12px);}
-    100%{transform:translateY(0);}
+0%,100%{transform:translateY(0);}
+50%{transform:translateY(-12px);}
 }
 
 .icon{
     font-size:90px;
-    animation:spin 8s linear infinite;
+    animation:rotate 8s linear infinite;
 }
 
-@keyframes spin{
-    from{transform:rotate(0deg);}
-    to{transform:rotate(360deg);}
+@keyframes rotate{
+from{transform:rotate(0deg);}
+to{transform:rotate(360deg);}
 }
 
 h1{
-    color:#0077cc;
-    margin-top:15px;
-    font-size:32px;
+    color:#0088cc;
 }
 
 h2{
     color:#0099ff;
-    margin:15px 0;
 }
 
 p{
-    color:#333;
     font-size:18px;
-    line-height:1.8;
 }
 
-.info{
-    margin-top:25px;
-    padding:20px;
-    border-radius:15px;
-    background:#eef9ff;
-    border:2px solid #8fd3ff;
-}
-
-.btn{
-    display:inline-block;
-    margin-top:25px;
-    padding:15px 35px;
+button{
+    margin-top:20px;
+    padding:15px 30px;
+    border:none;
+    border-radius:30px;
     background:#00aaff;
     color:white;
-    border-radius:30px;
-    text-decoration:none;
-    font-weight:bold;
+    font-size:18px;
+    cursor:pointer;
     transition:.3s;
-    animation:glow 2s infinite alternate;
 }
 
-.btn:hover{
-    transform:scale(1.08);
-    background:#0088dd;
+button:hover{
+    transform:scale(1.1);
+    background:#0088cc;
 }
 
-@keyframes glow{
-    from{
-        box-shadow:0 0 10px #6ed6ff;
-    }
-    to{
-        box-shadow:0 0 25px #00bfff;
-    }
-}
-
-/* วงกลมตกแต่ง */
 .circle{
-    position:absolute;
-    border-radius:50%;
-    background:rgba(255,255,255,.3);
-    animation:move 8s infinite alternate;
+position:absolute;
+border-radius:50%;
+background:rgba(255,255,255,.3);
+animation:move 8s infinite alternate;
 }
 
 .c1{
-    width:120px;
-    height:120px;
-    top:10%;
-    left:10%;
+width:120px;
+height:120px;
+left:5%;
+top:10%;
 }
 
 .c2{
-    width:180px;
-    height:180px;
-    bottom:10%;
-    right:10%;
-    animation-duration:10s;
+width:180px;
+height:180px;
+right:10%;
+bottom:10%;
 }
 
 @keyframes move{
-    from{
-        transform:translateY(0);
-    }
-    to{
-        transform:translateY(40px);
-    }
+from{transform:translateY(0);}
+to{transform:translateY(50px);}
 }
 
-footer{
-    margin-top:20px;
-    color:#555;
-}
 </style>
 
 </head>
+
 <body>
 
 <div class="circle c1"></div>
 <div class="circle c2"></div>
 
-<div class="container">
+<div class="card">
 
 <div class="icon">💻</div>
 
-<h1>ยินดีต้อนรับสู่ Web Server</h1>
+<h1>Web Server ของ</h1>
 
-<h2>🌐 Computer Technology</h2>
+<h2>นางสาวศิริลักษณ์ อบนวล</h2>
 
-<div class="info">
+<p><b>รหัสนักศึกษา :</b> 69319010399</p>
 
-<p><strong>ชื่อ - สกุล</strong><br>
-นางสาวศิริลักษณ์ อบนวล</p>
+<p>🚀 เครื่องแม่ข่ายทำงานปกติบน Railway แล้ว</p>
 
-<br>
-
-<p><strong>รหัสนักศึกษา</strong><br>
-69319010399</p>
-
-<br>
-
-<p>🚀 เครื่องแม่ข่ายทำงานปกติบนระบบ Railway แล้ว</p>
-
-</div>
-
-<a class="btn" href="#">💙 Welcome</a>
-
-<footer>
-<p>💻 Node.js Web Server | HTML + CSS Animation</p>
-</footer>
+<button onclick="alert('ยินดีต้อนรับเข้าสู่ Web Server')">
+Welcome
+</button>
 
 </div>
 
 </body>
 </html>
 `);
-
 });
 
-// 4. เปิดใช้งาน Server
 server.listen(port, () => {
-    console.log(\`Server is running! เครื่องแม่ข่ายเปิดทำงานแล้วที่ช่องทาง: \${port}\`);
+  console.log("Server running on port " + port);
 });
